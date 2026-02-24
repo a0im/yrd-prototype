@@ -25,7 +25,7 @@
 
         html {
             scroll-behavior: smooth;
-            scroll-padding-top: 100px;
+            scroll-padding-top: 80px; /* 헤더 높이 고려하여 여백 조정 */
         }
 
         body {
@@ -34,12 +34,13 @@
             color: var(--text-color);
             line-height: 1.6;
             overflow-x: hidden;
+            font-size: 16px; /* PC 기본 폰트 사이즈 */
         }
 
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         ul { list-style: none; }
         
-        /* --- TYPOGRAPHY --- */
+        /* --- TYPOGRAPHY (PC Default) --- */
         h1, h2, h3 {
             font-weight: 900;
             text-transform: uppercase;
@@ -48,18 +49,19 @@
         .eng-font { font-family: 'Oswald', sans-serif; }
         
         .section-title {
-            font-size: clamp(2rem, 5vw, 4rem);
-            margin-bottom: 1rem;
+            font-size: clamp(2rem, 5vw, 3.5rem); /* PC에서도 너무 거대하지 않게 최대값 조절 */
+            margin-bottom: 0.8rem;
             border-left: 5px solid var(--accent-color);
             padding-left: 20px;
-            line-height: 1;
+            line-height: 1.1;
         }
 
         .section-subtitle {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--gray-color);
             margin-bottom: 3rem;
             padding-left: 25px;
+            font-weight: 300;
         }
 
         /* --- HEADER --- */
@@ -88,14 +90,10 @@
         nav a { font-weight: 700; font-size: 0.9rem; text-transform: uppercase; }
         nav a:hover { color: var(--accent-color); }
 
-
-
-        .h-fcolor{}
         /* --- HERO SECTION --- */
         .hero {
             height: 100vh;
-            /* use root‑relative absolute path for banner image */
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url('/image/내용1.jpg') no-repeat center/cover;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url('/img/mainbanner.jpg') no-repeat center/cover;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -103,27 +101,15 @@
             text-align: center;
             padding: 0 20px;
             position: relative;
+            max-width : 1900px;
             filter: grayscale(1);
         }
 
-        /* 1. 처음 등장했다가 사라지는 텍스트 애니메이션 */
         @keyframes heroTextSequence {
-            0% {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            30% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            50% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(30px); /* 아래로 사라짐 */
-            }
+            0% { opacity: 0; transform: translateY(50px); }
+            30% { opacity: 1; transform: translateY(0); }
+            50% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(30px); }
         }
 
         .hero-ani {
@@ -131,47 +117,38 @@
             opacity: 0;
         }
 
-        /* 2. 마지막에 등장하는 텍스트 애니메이션 (Final Text) */
         @keyframes finalReveal {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -30%); /* 중앙보다 약간 아래에서 시작 */
-            }
-            100% {
-                opacity: 1;
-                transform: translate(-50%, -50%); /* 정중앙 위치 */
-            }
+            0% { opacity: 0; transform: translate(-50%, -30%); }
+            100% { opacity: 1; transform: translate(-50%, -50%); }
         }
 
         .hero-final-text {
-            position: absolute; /* 기존 텍스트 위에 겹치도록 절대 위치 */
+            position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%); /* 정중앙 정렬 */
+            transform: translate(-50%, -50%);
             width: 100%;
             text-align: center;
-            
             font-family: 'Oswald', sans-serif;
             font-size: clamp(2rem, 5vw, 4rem);
             color: #fff;
             letter-spacing: 1px;
-            
-            opacity: 0; /* 초기엔 숨김 */
-            /* 1.5초 동안 서서히 올라오며 등장, 사라지지 않음(forwards) */
+            opacity: 0;
             animation: finalReveal 1.5s ease-out forwards;
-            /* 앞의 텍스트가 사라질 때쯤(3.2초) 시작 */
             animation-delay: 3.2s; 
+            padding: 0 15px; /* 모바일에서 좌우 여백 확보 */
         }
 
         .hero h1 {
-            font-size: clamp(3rem, 8vw, 7rem);
-            line-height: 0.9;
+            /* clamp(최소, 선호, 최대) 수정: 모바일에서 2.5rem(약 40px) 정도로 시작 */
+            font-size: clamp(2.5rem, 6vw, 6rem);
+            line-height: 1;
             margin-bottom: 20px;
             font-family: 'Oswald', sans-serif;
         }
 
         .hero p {
-            font-size: clamp(1rem, 2vw, 1.5rem);
+            font-size: clamp(1rem, 1.5vw, 1.3rem);
             font-weight: 300;
             margin-bottom: 40px;
             opacity: 0.9;
@@ -201,20 +178,20 @@
         .about-img img {
             width: 100%;
             height: auto;
-            filter: grayscale(100%);
+           /* filter: grayscale(100%);*/
             transition: 0.5s;
             border-radius: 4px;
         }
         .about-img img:hover { filter: grayscale(0%); }
 
-        .about-text h3 { font-size: 2rem; margin-bottom: 20px; }
-        .about-text p { font-size: 1rem; color: #ccc; margin-bottom: 30px; text-align: justify; }
+        .about-text h3 { font-size: 2rem; margin-bottom: 1.5rem; }
+        .about-text p { font-size: 1rem; color: #ccc; margin-bottom: 1.5rem; text-align: justify; }
 
         /* Core Values */
         .core-values {
             display: flex;
             justify-content: space-between;
-            margin-top: 50px;
+            margin-top: 75px;
             text-align: center;
             gap: 20px;
         }
@@ -267,10 +244,7 @@
             gap: 50px;
         }
 
-        .work-list {
-            flex: 1;
-            min-width: 300px;
-        }
+        .work-list { flex: 1; min-width: 300px; }
 
         .work-list ul li {
             padding: 15px 0;
@@ -307,13 +281,12 @@
         .why-us-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
             border-top: 1px solid #333;
             border-bottom: 1px solid #333;
         }
 
         .why-item {
-            padding: 50px;
+            padding: 75px 50px ;
             display: flex;
             align-items: flex-start;
             gap: 20px;
@@ -346,48 +319,112 @@
         .contact-info p { font-size: 1.2rem; margin: 10px 0; }
         .contact-slogan { margin-top: 50px; font-size: 1.5rem; font-weight: 700; color: var(--accent-color); }
 
-        /* --- MEDIA QUERIES (MOBILE) --- */
+        /* --- MEDIA QUERIES (MOBILE OPTIMIZED: 350px~768px) --- */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 3rem; }
-            /* 모바일에서 최종 텍스트 사이즈 조정 */
-            .hero-final-text { font-size: 1.8rem; padding: 0 10px; }
-            
-            .about-grid, .why-us-grid, .portfolio-layout { display: block; }
-            .about-img { margin-bottom: 30px; }
-            .why-item { border-right: none; border-bottom: 1px solid #333; padding: 30px 0; }
+            /* 1. Header Adjustment */
+            header {
+                padding: 15px 20px; /* 좌우 패딩 대폭 축소 */
+            }
+            .logo {
+                font-size: 1.3rem; /* 로고 사이즈 축소 */
+            }
             nav { display: none; } 
 
+            /* 2. Hero Section Adjustment */
+            .hero h1 {
+                /* 모바일에서 38px~40px 수준으로 시작 */
+                font-size: 2.4rem; 
+                line-height: 1.1;
+            }
+            .hero p {
+                font-size: 0.95rem; /* 본문과 유사하게 조정 */
+            }
+            .hero-final-text {
+                /* 최종 텍스트도 과하지 않게 */
+                font-size: 1.4rem; 
+                line-height: 1.3;
+                width: 90%; /* 좌우 여백 확보 */
+            }
+
+            /* 3. Section & Text Adjustment */
+            section {
+                padding: 60px 5%; /* 섹션 상하 여백 축소 */
+            }
+
+            .section-title {
+                font-size: 1.75rem; /* 약 28px */
+                border-left-width: 4px;
+                padding-left: 15px;
+                margin-bottom: 0.5rem;
+            }
+            
+            .section-subtitle {
+                font-size: 0.95rem;
+                padding-left: 19px; /* title border + padding 고려 */
+                margin-bottom: 2rem;
+            }
+
+            /* About Text */
+            .about-text h3 { font-size: 1.5rem; } /* 소제목 축소 */
+            .about-text p { font-size: 0.95rem; line-height: 1.6; } /* 본문 15px 수준 */
+
+            /* 4. Layouts Unstack */
+            .about-grid, .why-us-grid, .portfolio-layout { display: block; }
+            .about-img { margin-bottom: 30px; }
+            
+            /* Core Values (Mobile Card Style) */
             .core-values {
                 flex-direction: column;
                 gap: 15px;
             }
-
             .value-item {
                 aspect-ratio: auto;
                 border-radius: 4px;
-                padding: 30px 25px;
+                padding: 25px 20px;
                 align-items: flex-start;
                 text-align: left;
                 border-left: 4px solid var(--accent-color);
                 background: linear-gradient(90deg, #1a1a1a 0%, #111 100%);
             }
-
-            .value-item h4 { font-size: 1.4rem; margin-bottom: 8px; }
-            .value-item span { font-size: 0.95rem; word-break: keep-all; line-height: 1.5; }
+            .value-item h4 { font-size: 1.3rem; margin-bottom: 5px; }
+            .value-item span { font-size: 0.9rem; }
             .value-item span br { display: none; }
 
+            /* Solutions */
+            .solution-card { padding: 30px; }
+            .solution-icon { font-size: 2.5rem; }
+            .solution-card h4 { font-size: 1.3rem; }
+            .solution-card p { font-size: 0.9rem; }
+
+            /* Why Us */
+            .why-item { 
+                border-right: none; 
+                border-bottom: 1px solid #333; 
+                padding: 30px 0; 
+                gap: 15px;
+            }
+            .why-icon { font-size: 2rem; }
+            .why-content h4 { font-size: 1.2rem; }
+            .why-content p { font-size: 0.9rem; }
+
+            /* Gallery Grid */
             .gallery-grid {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
                 gap: 10px;
                 margin-top: 30px;
             }
-
             .gallery-item {
                 aspect-ratio: 1/1;
                 border-radius: 6px;
                 box-shadow: 0 4px 6px rgba(0,0,0,0.3);
             }
+
+            /* Contact Footer */
+            .contact-box { padding: 40px 20px; }
+            .contact-title { font-size: 1.8rem; margin-bottom: 30px; }
+            .contact-info p { font-size: 1rem; }
+            .contact-slogan { font-size: 1.1rem; margin-top: 30px; }
         }
 
         @keyframes bounce {
@@ -416,7 +453,7 @@
         <p class="eng-font hero-ani" style="animation-delay: 0.2s;">Design your moment. Move your stage. YRD</p>
         
         <h2 class="hero-final-text">
-            <span class="h-fcolor" >(YRD)</span> - Performance Partner
+            <span style="color:var(--accent-color);">(YRD)</span> - Performance Partner
         </h2>
         
         <div class="scroll-down">
@@ -430,7 +467,7 @@
 
         <div class="about-grid">
             <div class="about-img" data-aos="fade-right">
-                <img src="https://picsum.photos/200/300?random=1" style="width:100%; aspect-ratio:16/10; object-fit:cover;" alt="Team YRD">
+                <img src="/img/middle.JPG" style="width:100%; aspect-ratio:16/10; object-fit:cover;" alt="Team YRD">
             </div>
             <div class="about-text" data-aos="fade-left">
                 <h3>Design Your Moment</h3>
@@ -501,10 +538,10 @@
                 </ul>
             </div>
             <div class="gallery-grid" data-aos="fade-left">
-                <div class="gallery-item"><img src="https://picsum.photos/200/300?random=10" alt="Stage 1"></div>
-                <div class="gallery-item"><img src="https://picsum.photos/200/300?random=11" alt="Stage 2"></div>
-                <div class="gallery-item"><img src="https://picsum.photos/200/300?random=12" alt="Stage 3"></div>
-                <div class="gallery-item"><img src="https://picsum.photos/200/300?random=13" alt="Stage 4"></div>
+                <div class="gallery-item"><img src="/img/se1.JPG" alt="Stage 1"></div>
+                <div class="gallery-item"><img src="/img/se2.JPG" alt="Stage 2"></div>
+                <div class="gallery-item"><img src="/img/se3.JPG" alt="Stage 3"></div>
+                <div class="gallery-item"><img src="/img/se4.JPG" alt="Stage 4"></div>
             </div>
         </div>
     </section>
